@@ -30,14 +30,26 @@ app.get("/", (req, res) => {
   res.send("<h1>hey there ...</h1>");
 });
 
-const generateId = () => {
-  const newId = persons.length > 0 ? Math.max(...persons.map((x) => x.id)) : 0;
-  return newId + 1;
-};
+app.get("/info", (req, res) => {
+  date = new Date();
+  res.send(`<h1>Phonebook has info for ${persons.length} people</h1>${date}`);
+});
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
 });
+
+app.get("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const person = persons.find((person) => person.id === id);
+
+  person ? res.json(person) : res.status(404).end();
+});
+
+const generateId = () => {
+  const newId = persons.length > 0 ? Math.max(...persons.map((x) => x.id)) : 0;
+  return newId + 1;
+};
 
 app.post("/api/persons", (req, res) => {
   const body = req.body;
@@ -65,13 +77,6 @@ app.delete("/api/persons/:id", (req, res) => {
   persons = persons.filter((person) => person.id !== id);
 
   res.status(204).end();
-});
-
-app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((person) => person.id === id);
-
-  person ? res.json(person) : res.status(404).end();
 });
 
 const PORT = 3001;

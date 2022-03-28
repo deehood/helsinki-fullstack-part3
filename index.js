@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 
 let persons = [
@@ -25,6 +26,25 @@ let persons = [
 ];
 
 app.use(express.json());
+
+app.use(
+  morgan(function (tokens, req, res) {
+    return [
+      "time",
+      tokens.date(req, res),
+      "| ip",
+      tokens["remote-addr"](req, res),
+      "|",
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, "content-length"),
+      "-",
+      tokens["response-time"](req, res),
+      "ms",
+    ].join(" ");
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("<h1>hey there ...</h1>");
@@ -72,6 +92,12 @@ app.post("/api/persons/", (req, res) => {
   persons = persons.concat(newPerson);
   res.json(newPerson);
 });
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(unknownEndpoint);
 
 const PORT = 3001;
 app.listen(PORT, () => {

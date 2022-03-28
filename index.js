@@ -42,9 +42,14 @@ app.use(
       "-",
       tokens["response-time"](req, res),
       "ms",
+      tokens.put(req, res),
     ].join(" ");
   })
 );
+
+morgan.token("put", (req, res) => {
+  return JSON.stringify(req.body);
+});
 
 app.get("/", (req, res) => {
   res.send("<h1>hey there ...</h1>");

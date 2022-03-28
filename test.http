@@ -1,20 +1,18 @@
 http://localhost:3001/
 
 ###
-http://localhost:3001/api/notes/
+http://localhost:3001/api/persons/
 ###
-http://localhost:3001/api/notes/2
+http://localhost:3001/api/persons/2
 ###
-DELETE http://localhost:3001/api/notes/2
+DELETE http://localhost:3001/api/persons/2
+
 
 ###
-
-POST http://localhost:3001/api/notes/ HTTP/1.1
+POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json
 
 {
-  "id": 23,
-  "content": "queriast",
-  "date": "2022-05-30T18:39:34.091Z",
-  "important": false
+    "name": "Mike Hammer",
+    "number": "3434-2323T"
 }

@@ -57,6 +57,12 @@ newId = () => Math.floor(Math.random() * 999999);
 app.post("/api/persons/", (req, res) => {
   const person = req.body;
 
+  if (!person.name || !person.number)
+    return res.status(400).json("Fields can't be empty");
+
+  if (persons.find((x) => x.name === person.name))
+    return res.status(400).json("Name must be unique ...");
+
   const newPerson = {
     id: newId(),
     name: person.name,

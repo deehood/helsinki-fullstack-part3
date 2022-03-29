@@ -1,8 +1,25 @@
 http://localhost:3005/
 
 ###
-http://localhost:3005/info
+https://ancient-thicket-54616.herokuapp.com/info
 ###
+https://ancient-thicket-54616.herokuapp.com/api/persons/
+###
+https://ancient-thicket-54616.herokuapp.com/api/persons/23
+###
+DELETE https://ancient-thicket-54616.herokuapp.com/api/persons/2
+
+
+###
+POST https://ancient-thicket-54616.herokuapp.com/api/persons/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Mike Hammer44",
+    "number": "234234234"
+}
+
+#####
 http://localhost:3005/api/persons/
 ###
 http://localhost:3005/api/persons/23
@@ -18,3 +35,4 @@ content-type: application/json
     "name": "Mike Hammer44",
     "number": "234234234"
 }
+https://ancient-thicket-54616.herokuapp.com/

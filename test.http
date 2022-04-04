@@ -1,17 +1,17 @@
 http://localhost:3005/
 
 ###
-https://ancient-thicket-54616.herokuapp.com/info
+https://part3-helsinki-backend.herokuapp.com/info
 ###
-https://ancient-thicket-54616.herokuapp.com/api/persons/
+https://part3-helsinki-backend.herokuapp.com/api/persons/
 ###
-https://ancient-thicket-54616.herokuapp.com/api/persons/23
+https://part3-helsinki-backend.herokuapp.com/api/persons/23
 ###
-DELETE https://ancient-thicket-54616.herokuapp.com/api/persons/2
+DELETE https://part3-helsinki-backend.herokuapp.com/api/persons/2
 
 
 ###
-POST https://ancient-thicket-54616.herokuapp.com/api/persons/ HTTP/1.1
+POST https://part3-helsinki-backend.herokuapp.com/api/persons/ HTTP/1.1
 content-type: application/json
 
 {
@@ -35,4 +35,4 @@ content-type: application/json
     "name": "Mike Hammer44",
     "number": "234234234"
 }
-https://ancient-thicket-54616.herokuapp.com/
+https://part3-helsinki-backend.herokuapp.com/

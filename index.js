@@ -93,8 +93,7 @@ app.put("/api/persons/:id", (req, res) => {
 
     // the logic for displaying is in frontend
 });
-
-newId = () => Math.floor(Math.random() * 999999);
+const newId = () => Math.floor(Math.random() * 999999);
 
 app.post("/api/persons/", (req, res) => {
     const person = req.body;

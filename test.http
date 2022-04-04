@@ -1,3 +1,16 @@
+
+POST http://localhost:3001/api/persons/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Mike Hammer44",
+    "number": "234234234"
+}
+
+###
+http://localhost:3001/api/persons
+
+
 http://localhost:3005/
 
 ###

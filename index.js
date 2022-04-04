@@ -1,3 +1,5 @@
+require("dotenv").config();
+const Person = require("./models/mongo");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -5,29 +7,6 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 app.use(express.static("build"));
-
-let persons = [
-    {
-        id: 1,
-        name: "Arto Hellas",
-        number: "040-123456",
-    },
-    {
-        id: 2,
-        name: "Ada Lovelace",
-        number: "39-44-5323523",
-    },
-    {
-        id: 3,
-        name: "Dan Abramov",
-        number: "12-43-234345",
-    },
-    {
-        id: 4,
-        name: "Mary Poppendieck",
-        number: "39-23-6423122",
-    },
-];
 
 app.use(express.json());
 
@@ -46,54 +25,54 @@ app.use(
             "-",
             tokens["response-time"](req, res),
             "ms",
-            tokens.put(req, res),
         ].join(" ");
     })
 );
 
-morgan.token("put", (req, res) => {
-    return JSON.stringify(req.body);
-});
+// app.get("/", (req, res) => {
+//     res.send("<h1>hey there ...</h1>");
+// });
 
-app.get("/", (req, res) => {
-    res.send("<h1>hey there ...</h1>");
-});
+// app.get("/info", (req, res) => {
+//     date = new Date();
+//     res.send(`<h1>Phonebook has info for ${persons.length} people</h1>${date}`);
+// });
 
-app.get("/info", (req, res) => {
-    date = new Date();
-    res.send(`<h1>Phonebook has info for ${persons.length} people</h1>${date}`);
-});
+// app.get("/api/persons", (req, res) => {
+//     res.json(persons);
+// });
 
 app.get("/api/persons", (req, res) => {
-    res.json(persons);
+    Person.find({}).then((people) => {
+        res.json(people);
+    });
 });
 
-app.get("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id);
-    const person = persons.find((person) => person.id === id);
-    console.log(person);
-    person
-        ? res.send(person)
-        : res.status(404).json({ error: "not found ..." });
-});
+// app.get("/api/persons/:id", (req, res) => {
+//     const id = Number(req.params.id);
+//     const person = persons.find((person) => person.id === id);
+//     // console.log(person);
+//     person
+//         ? res.send(person)
+//         : res.status(404).json({ error: "not found ..." });
+// });
 
-app.delete("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id);
-    persons = persons.filter((person) => person.id !== id);
-    res.status(204).end();
-});
+// app.delete("/api/persons/:id", (req, res) => {
+//     const id = Number(req.params.id);
+//     persons = persons.filter((person) => person.id !== id);
+//     res.status(204).end();
+// });
 
-app.put("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id);
-    const person = req.body;
+// app.put("/api/persons/:id", (req, res) => {
+//     const id = Number(req.params.id);
+//     const person = req.body;
 
-    res.json(person);
+//     res.json(person);
 
-    res.status(204).end();
+//     res.status(204).end();
 
-    // the logic for displaying is in frontend
-});
-const newId = () => Math.floor(Math.random() * 999999);
+//     // the logic for displaying is in frontend
+// });
 
 app.post("/api/persons/", (req, res) => {
     const person = req.body;
@@ -101,17 +80,18 @@ app.post("/api/persons/", (req, res) => {
     if (!person.name || !person.number)
         return res.status(400).json("Fields can't be empty");
 
-    if (persons.find((x) => x.name === person.name))
-        return res.status(400).json("Name must be unique ...");
+    // if (persons.find((x) => x.name === person.name))
+    //     return res.status(400).json("Name must be unique ...");
 
-    const newPerson = {
-        id: newId(),
+    const newPerson = new Person({
         name: person.name,
         number: person.number,
-    };
+    });
 
-    persons = persons.concat(newPerson);
-    res.json(newPerson);
+    newPerson.save().then((result) => {
+        res.json(result);
+        console.log("person saved!");
+    });
 });
 
 const unknownEndpoint = (request, response) => {

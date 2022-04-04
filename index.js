@@ -3,6 +3,7 @@ const Person = require("./models/mongo");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const { response } = require("express");
 
 const app = express();
 app.use(cors());
@@ -48,20 +49,24 @@ app.get("/api/persons", (req, res) => {
     });
 });
 
-// app.get("/api/persons/:id", (req, res) => {
-//     const id = Number(req.params.id);
-//     const person = persons.find((person) => person.id === id);
-//     // console.log(person);
-//     person
-//         ? res.send(person)
-//         : res.status(404).json({ error: "not found ..." });
-// });
+app.get("/api/persons/:id", (req, res) => {
+    Person.findById(req.params.id)
+        .then((person) => {
+            person
+                ? res.json(person)
+                : res.status(404).json({ error: "not found ..." });
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(400).send({ error: "bad id" });
+        });
+});
 
-// app.delete("/api/persons/:id", (req, res) => {
-//     const id = Number(req.params.id);
-//     persons = persons.filter((person) => person.id !== id);
-//     res.status(204).end();
-// });
+app.delete("/api/persons/:id", (req, res) => {
+    Person.findByIdAndDelete(req.params.id)
+        .then((result) => res.status(204).end())
+        .catch((error) => res.status(400).end());
+});
 
 // app.put("/api/persons/:id", (req, res) => {
 //     const id = Number(req.params.id);

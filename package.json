@@ -10,14 +10,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/deehood/part3-helsinki-fullstack.git"
+        "url": "git+https://github.com/deehood/part3-helsinki-backend.git"
     },
     "author": "deehood",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/deehood/part3-helsinki-fullstack/issues"
+        "url": "https://github.com/deehood/part3-helsinki-backend/issues"
     },
-    "homepage": "https://github.com/deehood/part3-helsinki-fullstack#readme",
+    "homepage": "https://github.com/deehood/part3-helsinki-backend#readme",
     "devDependencies": {
         "nodemon": "^2.0.15"
     },

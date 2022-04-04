@@ -63,16 +63,17 @@ app.delete("/api/persons/:id", (req, res, next) => {
         .catch((error) => next(error));
 });
 
-// app.put("/api/persons/:id", (req, res) => {
-//     const id = Number(req.params.id);
-//     const person = req.body;
-
-//     res.json(person);
-
-//     res.status(204).end();
-
-//     // the logic for displaying is in frontend
-// });
+app.put("/api/persons/:id", (req, res, next) => {
+    const newPerson = {
+        name: req.body.name,
+        number: req.body.number,
+    };
+    Person.findByIdAndUpdate(req.params.id, newPerson)
+        .then((person) => {
+            res.json(newPerson);
+        })
+        .catch((error) => next(error));
+});
 
 app.post("/api/persons/", (req, res, next) => {
     const person = req.body;

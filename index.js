@@ -89,6 +89,8 @@ app.put("/api/persons/:id", (req, res) => {
     res.json(person);
 
     res.status(204).end();
+
+    // the logic for displaying is in frontend
 });
 
 newId = () => Math.floor(Math.random() * 999999);

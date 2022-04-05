@@ -3,7 +3,6 @@ const Person = require("./models/mongo");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const { response } = require("express");
 
 const app = express();
 app.use(cors());
@@ -29,19 +28,6 @@ app.use(
         ].join(" ");
     })
 );
-
-// app.get("/", (req, res) => {
-//     res.send("<h1>hey there ...</h1>");
-// });
-
-// app.get("/info", (req, res) => {
-//     date = new Date();
-//     res.send(`<h1>Phonebook has info for ${persons.length} people</h1>${date}`);
-// });
-
-// app.get("/api/persons", (req, res) => {
-//     res.json(persons);
-// });
 
 app.get("/api/persons", (req, res, next) => {
     Person.find({})

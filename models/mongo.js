@@ -4,6 +4,7 @@ const url = process.env.MONGODB_URI;
 
 mongoose
     .connect(url)
+    // eslint-disable-next-line no-unused-vars
     .then((result) => {
         console.log("connected to MongoDB");
     })
@@ -36,7 +37,5 @@ personSchema.set("toJSON", {
         delete returnedObject.__v;
     },
 });
-
-const Person = mongoose.model("Person", personSchema);
 
 module.exports = mongoose.model("Person", personSchema);

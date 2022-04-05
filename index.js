@@ -89,21 +89,32 @@ app.put("/api/persons/:id", (req, res, next) => {
 app.post("/api/persons/", (req, res, next) => {
     const person = req.body;
 
-    const newPerson = new Person({
-        name: person.name,
-        number: person.number,
-    });
+    Person.findOne({ name: person.name })
+        .then((found) => {
+            if (found) {
+                res.status(500).json(
+                    `${found.name} already exists in Database. Refreshing ....`
+                );
+            } else {
+                console.log("into mongoose findone");
 
-    newPerson
-        .save()
-        .then((result) => {
-            res.json(result.toJSON());
-            console.log("person saved!");
+                const newPerson = new Person({
+                    name: person.name,
+                    number: person.number,
+                });
+
+                newPerson
+                    .save()
+                    .then((result) => {
+                        res.json(result.toJSON());
+                        console.log("person saved!");
+                    })
+                    .catch((error) => {
+                        next(error);
+                    });
+            }
         })
-        .catch((error) => {
-            next(error);
-            // res.status(500).json("oh no");
-        });
+        .catch((error) => next(error));
 });
 
 const unknownEndpoint = (req, res) => {
@@ -114,6 +125,10 @@ app.use(unknownEndpoint);
 
 const errorHandler = (error, req, res, next) => {
     console.error(error.message);
+
+    console.log(error.message);
+    console.log(error.name);
+    console.log(error);
 
     if (error.name === "CastError") {
         return res.status(400).send({ error: "malformatted id" });

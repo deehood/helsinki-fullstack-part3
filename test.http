@@ -1,8 +1,8 @@
 
-http://localhost:3001/api/persons/624b49bff97da24900f5e5c1
+http://localhost:3001/api/persons/6api/persons/624c27fb97c976b75aced54e
 ###
 
-POST http://localhost:3001/api/persons/ HTTP/1.1
+PUT http://localhost:3001/api/persons/api/persons/624c27fb97c976b75aced54e HTTP/1.1
 content-type: application/json
 
 {

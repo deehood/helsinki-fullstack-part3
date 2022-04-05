@@ -92,9 +92,9 @@ app.post("/api/persons/", (req, res, next) => {
     Person.findOne({ name: person.name })
         .then((found) => {
             if (found) {
-                res.status(500).json(
-                    `${found.name} already exists in Database. Refreshing ....`
-                );
+                return res.status(400).send({
+                    error: `${found.name} already exists (refreshing DB). Try again ...`,
+                });
             } else {
                 console.log("into mongoose findone");
 
@@ -110,6 +110,7 @@ app.post("/api/persons/", (req, res, next) => {
                         console.log("person saved!");
                     })
                     .catch((error) => {
+                        // res.status(400);
                         next(error);
                     });
             }
@@ -124,16 +125,11 @@ const unknownEndpoint = (req, res) => {
 app.use(unknownEndpoint);
 
 const errorHandler = (error, req, res, next) => {
-    console.error(error.message);
-
-    console.log(error.message);
     console.log(error.name);
-    console.log(error);
-
     if (error.name === "CastError") {
         return res.status(400).send({ error: "malformatted id" });
     } else if (error.name === "ValidationError") {
-        return res.status(400).json({ error: error.message });
+        return res.status(400).send({ error: error.message });
     }
     next(error);
 };
